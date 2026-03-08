@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACKHAT DEFENDERS</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{
+  --bg:#020812;--bg2:#070f1c;--bg3:#0a1628;--bg4:#0d1e35;
+  --blue:#00d4ff;--green:#00ff88;--purple:#b347ff;--red:#ff3366;--accent:#1a6bff;
+  --t1:#e8f4ff;--t2:#7ba7cc;--t3:#4a6a8a;--bdr:rgba(0,212,255,0.18);
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--t1);overflow-x:hidden;font-size:15px;line-height:1.6;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.04)1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.04)1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(2,8,18,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr);height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0;}
+.brand-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 18px rgba(0,212,255,.35);flex-shrink:0;}
+.brand-name{font-size:.82rem;font-weight:900;letter-spacing:1.5px;background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;}
+.nav-links{display:flex;gap:2px;list-style:none;align-items:center;}
+.nav-links a{color:var(--t2);font-size:.75rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:6px 10px;border-radius:6px;cursor:pointer;transition:all .25s;white-space:nowrap;text-decoration:none;display:block;}
+.nav-links a:hover,.nav-links a.active{color:var(--blue);background:rgba(0,212,255,.08);}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none;}
+.ham span{display:block;width:24px;height:2px;background:var(--blue);border-radius:2px;transition:.3s;}
+.mob{display:none;position:fixed;top:62px;left:0;right:0;background:rgba(2,8,18,.98);backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr);z-index:999;padding:10px 14px;flex-direction:column;gap:3px;}
+.mob.open{display:flex;}
+.mob a{color:var(--t2);font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:10px 14px;border-radius:8px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;}
+.mob a:hover{color:var(--blue);background:rgba(0,212,255,.08);}
+
+/* PAGES */
+.page{display:none;min-height:100vh;padding-top:62px;position:relative;z-index:1;}
+.page.active{display:block;}
+.sec{padding:60px 20px;max-width:1140px;margin:0 auto;}
+
+/* COMMON */
+.tag{display:inline-block;font-family:'Courier New',monospace;font-size:.68rem;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;}
+.sec-title{font-size:clamp(1.55rem,3.2vw,2.3rem);font-weight:900;line-height:1.2;margin-bottom:.8rem;letter-spacing:-.4px;}
+.sec-sub{font-size:.95rem;color:var(--t2);max-width:540px;margin-bottom:2.2rem;}
+.grad{background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--bdr),transparent);margin:2.2rem 0;}
+
+/* HERO */
+.hero-wrap{position:relative;overflow:hidden;}
+.hero{min-height:calc(100vh - 62px);display:flex;align-items:center;padding:50px 20px;position:relative;max-width:1140px;margin:0 auto;}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;}
+.o1{width:460px;height:460px;background:rgba(0,212,255,.07);top:-120px;right:-80px;}
+.o2{width:360px;height:360px;background:rgba(179,71,255,.07);bottom:-100px;left:-60px;}
+.hero-body{max-width:560px;position:relative;z-index:2;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.09);border:1px solid rgba(0,212,255,.28);border-radius:50px;padding:5px 15px;font-size:.68rem;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:1.6rem;animation:pb 2.5s ease-in-out infinite;}
+@keyframes pb{0%,100%{border-color:rgba(0,212,255,.28);}50%{border-color:rgba(0,212,255,.6);box-shadow:0 0 18px rgba(0,212,255,.12);}}
+.dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:bk 1.6s ease-in-out infinite;flex-shrink:0;}
+@keyframes bk{0%,100%{opacity:1;}50%{opacity:.15;}}
+.hero-title{font-size:clamp(1.75rem,4.2vw,3rem);font-weight:900;line-height:1.1;margin-bottom:1.2rem;letter-spacing:-1px;}
+.hero-sub{font-size:.98rem;color:var(--t2);margin-bottom:2rem;line-height:1.75;max-width:480px;}
+.btns{display:flex;gap:.75rem;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:8px;font-size:.88rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;cursor:pointer;transition:all .3s;border:none;font-family:inherit;}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;box-shadow:0 4px 24px rgba(26,107,255,.4);}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(26,107,255,.55);}
+.btn-s{background:transparent;color:var(--blue);border:1px solid rgba(0,212,255,.38);}
+.btn-s:hover{background:rgba(0,212,255,.08);transform:translateY(-2px);}
+.hero-vis{position:absolute;right:0;top:50%;transform:translateY(-50%);width:40%;max-width:400px;}
+.shield{width:100%;animation:fy 4s ease-in-out infinite;filter:drop-shadow(0 0 32px rgba(0,212,255,.26));}
+@keyframes fy{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
+
+/* STATS */
+.stats{background:var(--bg3);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:26px 20px;}
+.stats-g{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.3rem;text-align:center;}
+.sn{font-size:1.75rem;font-weight:900;color:var(--blue);display:block;font-family:'Courier New',monospace;}
+.sl{font-size:.72rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem;}
+.card{background:var(--bg3);border:1px solid var(--bdr);border-radius:14px;padding:1.6rem;transition:all .3s;cursor:pointer;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.card:hover::before{transform:scaleX(1);}
+.card:hover{border-color:rgba(0,212,255,.36);transform:translateY(-5px);box-shadow:0 16px 44px rgba(0,0,0,.35);background:var(--bg4);}
+.card.no-hover{cursor:default;}
+.card.no-hover:hover{transform:none;box-shadow:none;background:var(--bg3);border-color:var(--bdr);}
+.ci{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:.9rem;}
+.ci-b{background:rgba(0,212,255,.1);box-shadow:0 0 14px rgba(0,212,255,.16);}
+.ci-p{background:rgba(179,71,255,.1);box-shadow:0 0 14px rgba(179,71,255,.16);}
+.ci-g{background:rgba(0,255,136,.1);box-shadow:0 0 14px rgba(0,255,136,.16);}
+.ci-r{background:rgba(255,51,102,.1);box-shadow:0 0 14px rgba(255,51,102,.16);}
+.card h3{font-size:.85rem;font-weight:800;margin-bottom:.45rem;text-transform:uppercase;letter-spacing:.4px;}
+.card p{font-size:.84rem;color:var(--t2);line-height:1.58;}
+.card-arr{display:inline-flex;align-items:center;gap:5px;margin-top:.85rem;color:var(--blue);font-size:.78rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;transition:gap .2s;}
+.card:hover .card-arr{gap:9px;}
+
+/* TIPS */
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem;margin-top:1.6rem;}
+.tip{display:flex;align-items:flex-start;gap:11px;background:var(--bg3);border:1px solid var(--bdr);border-radius:11px;padding:1rem 1.1rem;transition:all .3s;}
+.tip:hover{border-color:rgba(0,255,136,.26);transform:translateX(3px);}
+.chk{width:25px;height:25px;border-radius:50%;background:rgba(0,255,136,.13);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:11px;flex-shrink:0;margin-top:2px;}
+.chk-r{background:rgba(255,51,102,.12);color:var(--red);}
+.tt{font-size:.86rem;color:var(--t2);line-height:1.55;}
+.tt strong{color:var(--t1);font-weight:700;display:block;margin-bottom:2px;}
+
+/* THREATS */
+.threats{display:grid;grid-template-columns:repeat(auto-fit,minmax(218px,1fr));gap:1.1rem;margin-top:1.6rem;}
+.tc{background:var(--bg3);border:1px solid rgba(255,51,102,.13);border-radius:13px;padding:1.4rem;transition:all .3s;}
+.tc:hover{border-color:rgba(255,51,102,.3);transform:translateY(-4px);box-shadow:0 12px 30px rgba(255,51,102,.09);}
+.tco{font-size:1.8rem;margin-bottom:.8rem;display:block;}
+.tc h3{font-size:.82rem;font-weight:800;color:var(--red);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:1px;}
+.tc p{font-size:.82rem;color:var(--t2);line-height:1.56;}
+
+/* ATTACK CARDS */
+.ac{background:var(--bg3);border:1px solid var(--bdr);border-radius:13px;padding:1.6rem;margin-bottom:1.1rem;}
+.ac-head{display:flex;align-items:center;gap:12px;margin-bottom:.7rem;flex-wrap:wrap;}
+.ac-ico{font-size:2rem;flex-shrink:0;}
+.ac-title{font-size:.96rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;}
+.abadge{border-radius:50px;padding:2px 9px;font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-left:6px;border:1px solid;}
+.ac > p{font-size:.86rem;color:var(--t2);line-height:1.7;margin-bottom:.6rem;}
+.prot{font-size:.83rem;color:var(--t2);line-height:1.6;background:rgba(0,255,136,.05);border:1px solid rgba(0,255,136,.14);border-radius:8px;padding:.8rem 1rem;}
+.prot strong{color:var(--green);}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:.6rem;margin-top:1.6rem;}
+.fi{background:var(--bg3);border:1px solid var(--bdr);border-radius:11px;overflow:hidden;}
+.fq{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.25rem;cursor:pointer;font-weight:700;font-size:.9rem;gap:.8rem;background:none;border:none;width:100%;text-align:left;color:var(--t1);font-family:inherit;transition:color .2s;}
+.fq:hover{color:var(--blue);}
+.ftog{width:22px;height:22px;background:rgba(0,212,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:1rem;flex-shrink:0;transition:all .3s;line-height:1;}
+.fi.open .ftog{transform:rotate(45deg);background:rgba(0,212,255,.2);}
+.fa{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;padding:0 1.25rem;color:var(--t2);font-size:.86rem;line-height:1.7;}
+.fi.open .fa{max-height:300px;padding-bottom:1rem;}
+
+/* PAGE HERO */
+.phero{border-bottom:1px solid var(--bdr);padding:3rem 20px;text-align:center;position:relative;overflow:hidden;}
+.phero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,212,255,.06) 0%,transparent 70%);}
+.phero-in{position:relative;z-index:1;max-width:640px;margin:0 auto;}
+.phero-ico{font-size:3rem;display:block;margin-bottom:.65rem;}
+.phero h1{font-size:clamp(1.55rem,3.5vw,2.2rem);font-weight:900;margin-bottom:.8rem;letter-spacing:-.4px;}
+.phero p{font-size:.95rem;color:var(--t2);line-height:1.7;}
+
+/* METER */
+.meter{margin-top:1.6rem;}
+.mi{margin-bottom:.95rem;}
+.ml{display:flex;justify-content:space-between;margin-bottom:5px;font-size:.84rem;font-weight:700;}
+.mv{color:var(--blue);font-family:'Courier New',monospace;}
+.mt{height:7px;background:rgba(255,255,255,.06);border-radius:50px;overflow:hidden;}
+.mf{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 1.6s cubic-bezier(.25,.46,.45,.94);width:0;}
+.mf.g{background:linear-gradient(90deg,var(--green),var(--accent));}
+
+/* INFO / ALERT BOXES */
+.alert-box{background:rgba(255,51,102,.07);border:1px solid rgba(255,51,102,.22);border-radius:11px;padding:1rem 1.1rem;margin:1.5rem 0;display:flex;gap:10px;align-items:flex-start;}
+.info-box{background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.2);border-radius:11px;padding:1rem 1.1rem;margin:1.5rem 0;display:flex;gap:10px;align-items:flex-start;}
+.bico{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+.btxt{font-size:.84rem;color:var(--t2);line-height:1.6;}
+.btxt strong{color:var(--red);}
+.info-box .btxt strong{color:var(--blue);}
+
+/* ABOUT */
+.about-g{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+.vals{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-top:1.5rem;}
+.vc{background:var(--bg3);border:1px solid var(--bdr);border-radius:12px;padding:1.2rem;text-align:center;transition:all .3s;}
+.vc:hover{transform:translateY(-3px);border-color:rgba(0,212,255,.26);}
+.vc-ico{font-size:1.7rem;display:block;margin-bottom:.6rem;}
+.vc h4{font-size:.73rem;font-weight:800;color:var(--blue);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.4px;}
+.vc p{font-size:.78rem;color:var(--t2);}
+
+/* CONTACT */
+.contact-g{display:grid;grid-template-columns:1fr 1.5fr;gap:2.2rem;align-items:start;}
+.cinfo{display:flex;flex-direction:column;gap:1rem;}
+.ci-row{display:flex;align-items:flex-start;gap:11px;background:var(--bg3);border:1px solid var(--bdr);border-radius:11px;padding:.95rem 1.1rem;}
+.ci-ic{font-size:1.2rem;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:rgba(0,212,255,.09);border-radius:9px;flex-shrink:0;}
+.ci-t{font-size:.83rem;color:var(--t2);}
+.ci-t strong{color:var(--t1);display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.ci-t a{color:var(--blue);text-decoration:none;display:block;line-height:1.7;}
+.ci-t a:hover{text-decoration:underline;}
+.ci-t a.ig{color:var(--purple);}
+.ci-t a.wa{color:#25d366;}
+.socials{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.65rem;}
+.soc{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:6px 11px;color:var(--t2);font-size:.78rem;font-weight:700;cursor:pointer;transition:all .3s;text-decoration:none;}
+.soc:hover{color:var(--blue);border-color:rgba(0,212,255,.35);}
+.soc.ig-s{color:#e040fb;border-color:rgba(224,64,251,.26);}
+.soc.ig-s:hover{border-color:rgba(224,64,251,.55);}
+.soc.wa-s{color:#25d366;border-color:rgba(37,211,102,.26);}
+.soc.wa-s:hover{border-color:rgba(37,211,102,.55);}
+.cform{background:var(--bg3);border:1px solid var(--bdr);border-radius:14px;padding:1.8rem;}
+.cform h3{font-size:.9rem;font-weight:800;margin-bottom:1.2rem;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;}
+.fg{margin-bottom:.88rem;}
+.fg label{display:block;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--t2);margin-bottom:4px;}
+.fg input,.fg select,.fg textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(0,212,255,.2);border-radius:8px;padding:10px 12px;color:var(--t1);font-size:.9rem;font-family:inherit;outline:none;transition:all .3s;}
+.fg textarea{resize:vertical;min-height:100px;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,212,255,.09);}
+.fg select option{background:var(--bg4);}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.enc{font-size:.7rem;color:var(--t3);text-align:center;margin-top:.8rem;font-family:'Courier New',monospace;}
+
+/* FOOTER */
+footer{background:var(--bg3);border-top:1px solid var(--bdr);padding:1.7rem 20px;text-align:center;position:relative;z-index:1;}
+.foot-in{max-width:1140px;margin:0 auto;}
+.foot-brand{font-size:1.1rem;font-weight:900;background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:.3rem;letter-spacing:2px;text-transform:uppercase;}
+.foot-tag{font-family:'Courier New',monospace;font-size:.68rem;color:var(--t3);letter-spacing:2px;margin-bottom:1.1rem;display:block;}
+.foot-links{display:flex;justify-content:center;gap:1.1rem;flex-wrap:wrap;margin-bottom:1rem;}
+.foot-links a{color:var(--t3);font-size:.76rem;font-weight:700;cursor:pointer;transition:color .2s;text-transform:uppercase;letter-spacing:.4px;text-decoration:none;}
+.foot-links a:hover{color:var(--blue);}
+.foot-copy{font-size:.72rem;color:var(--t3);}
+
+/* NOTIFICATION */
+.notif{position:fixed;bottom:1.4rem;right:1.4rem;background:var(--bg4);border:1px solid rgba(0,255,136,.36);border-radius:12px;padding:.8rem 1.1rem;z-index:9999;transform:translateX(250%);transition:transform .45s cubic-bezier(.34,1.56,.64,1);box-shadow:0 10px 32px rgba(0,0,0,.5);display:flex;align-items:center;gap:10px;max-width:280px;}
+.notif.show{transform:translateX(0);}
+.n-t{font-size:.83rem;color:var(--t2);}
+.n-t strong{color:var(--green);display:block;}
+
+/* RESPONSIVE */
+@media(max-width:880px){
+  .nav-links{display:none;} .ham{display:flex;}
+  .hero-vis{display:none;} .hero-body{max-width:100%;}
+  .stats-g{grid-template-columns:repeat(2,1fr);}
+  .contact-g,.about-g{grid-template-columns:1fr;}
+  .fr2{grid-template-columns:1fr;}
+}
+@media(max-width:560px){
+  .stats-g{gap:.8rem;} .vals{grid-template-columns:1fr;}
+  .sec{padding:40px 13px;} .phero{padding:2.2rem 13px;}
+  .cform{padding:1.2rem;} .hero{padding:1.6rem 13px;}
+  .brand-name{font-size:.68rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand" onclick="go('home')">
+    <div class="brand-icon">🛡️</div>
+    <div class="brand-name">BLACKHAT DEFENDERS</div>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="go('home')" data-page="home">Home</a></li>
+    <li><a onclick="go('android')" data-page="android">Android</a></li>
+    <li><a onclick="go('iphone')" data-page="iphone">iPhone</a></li>
+    <li><a onclick="go('laptop')" data-page="laptop">Laptop &amp; PC</a></li>
+    <li><a onclick="go('cyber')" data-page="cyber">Cyber Awareness</a></li>
+    <li><a onclick="go('about')" data-page="about">About</a></li>
+    <li><a onclick="go('contact')" data-page="contact">Contact</a></li>
+  </ul>
+  <button class="ham" id="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+  <a onclick="go('home');closeMob()">Home</a>
+  <a onclick="go('android');closeMob()">Android Security</a>
+  <a onclick="go('iphone');closeMob()">iPhone Security</a>
+  <a onclick="go('laptop');closeMob()">Laptop &amp; Computer Security</a>
+  <a onclick="go('cyber');closeMob()">Cyber Attack Awareness</a>
+  <a onclick="go('about');closeMob()">About</a>
+  <a onclick="go('contact');closeMob()">Contact</a>
+</div>
+
+<!-- ═══════ HOME ═══════ -->
+<div id="home" class="page active">
+  <div class="hero-wrap">
+    <div class="hero">
+      <div class="orb o1"></div><div class="orb o2"></div>
+      <div class="hero-body">
+        <div class="badge"><span class="dot"></span>Cybersecurity Consulting Platform</div>
+        <h1 class="hero-title"><span class="grad">BLACKHAT DEFENDERS</span> –<br>Protect Your Digital Life.</h1>
+        <p class="hero-sub">Cybersecurity awareness platform helping users secure their devices from hackers, malware, and online threats. Simple guidance for everyone.</p>
+        <div class="btns">
+          <button class="btn btn-p" onclick="go('android')">🔒 Learn How to Stay Safe</button>
+          <button class="btn btn-s" onclick="go('cyber')">⚠️ Threat Awareness</button>
+        </div>
+      </div>
+      <div class="hero-vis">
+        <svg class="shield" viewBox="0 0 400 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="400" y2="440" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#00d4ff" stop-opacity=".24"/><stop offset="100%" stop-color="#b347ff" stop-opacity=".24"/></linearGradient>
+            <linearGradient id="g2" x1="0" y1="0" x2="400" y2="440" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#b347ff"/></linearGradient>
+            <filter id="gf"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <path d="M200 22 L358 80 L358 242 C358 338 200 418 200 418 C200 418 42 338 42 242 L42 80 Z" fill="url(#g1)" stroke="url(#g2)" stroke-width="2.5" filter="url(#gf)"/>
+          <path d="M200 62 L318 112 L318 232 C318 308 200 378 200 378 C200 378 82 308 82 232 L82 112 Z" fill="rgba(0,212,255,.04)" stroke="rgba(0,212,255,.24)" stroke-width="1.5"/>
+          <circle cx="200" cy="200" r="58" fill="rgba(0,212,255,.08)" stroke="rgba(0,212,255,.44)" stroke-width="2"/>
+          <rect x="183" y="186" width="34" height="28" rx="4" fill="none" stroke="#00ff88" stroke-width="2.5"/>
+          <path d="M191 186 C191 172 209 172 209 186" stroke="#00ff88" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <circle cx="200" cy="203" r="3.5" fill="#00ff88"/>
+          <line x1="200" y1="207" x2="200" y2="212" stroke="#00ff88" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="200" cy="122" r="4" fill="#00d4ff" opacity=".8"/>
+          <circle cx="278" cy="162" r="3" fill="#b347ff" opacity=".7"/>
+          <circle cx="268" cy="268" r="4" fill="#00ff88" opacity=".8"/>
+          <circle cx="132" cy="162" r="3" fill="#00d4ff" opacity=".7"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stats-g">
+      <div><span class="sn">6.9B+</span><span class="sl">Mobile Users at Risk</span></div>
+      <div><span class="sn">560k</span><span class="sl">New Malware Daily</span></div>
+      <div><span class="sn">95%</span><span class="sl">Breaches via Human Error</span></div>
+      <div><span class="sn">$8T</span><span class="sl">Cybercrime Cost 2024</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="tag">// Secure Your Devices</span>
+    <h2 class="sec-title">Choose Your <span class="grad">Device</span></h2>
+    <p class="sec-sub">Get tailored cybersecurity guidance for every device you use. Simple, practical steps to stay protected.</p>
+    <div class="cards">
+      <div class="card" onclick="go('android')"><div class="ci ci-g">🤖</div><h3>Android Security</h3><p>Protect your Android from malware, phishing apps, spyware, and fake APK threats with our easy guide.</p><div class="card-arr">Learn More →</div></div>
+      <div class="card" onclick="go('iphone')"><div class="ci ci-b">📱</div><h3>iPhone / iOS Security</h3><p>Keep your iPhone secure with Face ID best practices, privacy settings, and two-factor authentication.</p><div class="card-arr">Learn More →</div></div>
+      <div class="card" onclick="go('laptop')"><div class="ci ci-p">💻</div><h3>Laptop &amp; Computer</h3><p>Defend Windows and Mac computers from malware, ransomware, phishing, and data breaches.</p><div class="card-arr">Learn More →</div></div>
+      <div class="card" onclick="go('cyber')"><div class="ci ci-r">⚡</div><h3>Cyber Attack Awareness</h3><p>Understand phishing, ransomware, spyware, and social engineering in plain language.</p><div class="card-arr">Learn More →</div></div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg3);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)">
+    <div class="sec">
+      <span class="tag">// FAQ</span>
+      <h2 class="sec-title">Frequently Asked <span class="grad">Questions</span></h2>
+      <div class="faq-list">
+        <div class="fi"><button class="fq" onclick="faq(this)"><span>What is a cyber attack and how does it affect me?</span><div class="ftog">+</div></button><div class="fa">A cyber attack is when someone uses technology to steal your data, spy on your activity, or damage your devices. Your bank accounts, personal photos, passwords, and identity can all be targeted. Staying informed dramatically reduces your risk.</div></div>
+        <div class="fi"><button class="fq" onclick="faq(this)"><span>Do I need antivirus on my phone?</span><div class="ftog">+</div></button><div class="fa">Android phones benefit from security apps. Google Play Protect (built-in) provides basic protection. iPhones have stricter controls but still benefit from staying updated and avoiding suspicious links.</div></div>
+        <div class="fi"><button class="fq" onclick="faq(this)"><span>How do I know if I've been hacked?</span><div class="ftog">+</div></button><div class="fa">Warning signs: unexpected account activity, unfamiliar apps, battery draining fast, device running slow, strange pop-ups, friends receiving messages you didn't send, or unusual charges on your accounts.</div></div>
+        <div class="fi"><button class="fq" onclick="faq(this)"><span>What is two-factor authentication (2FA)?</span><div class="ftog">+</div></button><div class="fa">2FA adds a second layer beyond just a password. When you log in, you also need a code sent to your phone or email. Even if someone steals your password, they can't access your account without the second step.</div></div>
+        <div class="fi"><button class="fq" onclick="faq(this)"><span>Is public Wi-Fi safe to use?</span><div class="ftog">+</div></button><div class="fa">Public Wi-Fi is not secure. Hackers can intercept data on open networks. Avoid banking on public Wi-Fi. Use a VPN which encrypts your connection and keeps your activity private.</div></div>
+        <div class="fi"><button class="fq" onclick="faq(this)"><span>How strong should my password be?</span><div class="ftog">+</div></button><div class="fa">At least 12-16 characters with uppercase, lowercase, numbers, and symbols. Avoid "password123". Use a password manager to generate and store unique passwords for every account.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer><div class="foot-in">
+    <span class="foot-brand">BLACKHAT DEFENDERS</span>
+    <span class="foot-tag">// PROTECTING DIGITAL LIVES WORLDWIDE //</span>
+    <div class="foot-links">
+      <a onclick="go('home')">Home</a><a onclick="go('android')">Android</a><a onclick="go('iphone')">iPhone</a>
+      <a onclick="go('laptop')">Laptop</a><a onclick="go('cyber')">Cyber Awareness</a>
+      <a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a>
+    </div>
+    <div class="foot-copy">© 2025 BLACKHAT DEFENDERS. All rights reserved.</div>
+  </div></footer>
+</div>
+
+<!-- ═══════ ANDROID ═══════ -->
+<div id="android" class="page">
+  <div class="phero" style="background:linear-gradient(135deg,#070f1c,#0a1628)">
+    <div class="phero-in"><span class="phero-ico">🤖</span><h1>Android <span class="grad">Security</span> Guide</h1><p>Learn how to protect your Android phone from the most common threats in simple, easy steps.</p></div>
+  </div>
+  <div class="sec">
+    <div class="alert-box"><span class="bico">⚠️</span><div class="btxt"><strong>Did you know?</strong> Android powers 72% of smartphones — the #1 target for mobile malware. Over 3 million malicious apps are blocked by Google Play every year.</div></div>
+    <span class="tag">// Common Threats</span>
+    <h2 class="sec-title">Android <span style="color:var(--red)">Threats</span> to Know</h2>
+    <p class="sec-sub">Understanding what attackers use helps you avoid them.</p>
+    <div class="threats">
+      <div class="tc"><span class="tco">📱</span><h3>Malware Apps</h3><p>Malicious apps disguised as games or tools that steal data, track location, or send premium-rate SMS messages.</p></div>
+      <div class="tc"><span class="tco">🎣</span><h3>Phishing Apps</h3><p>Fake banking or social media apps that look real but steal your login credentials and financial info.</p></div>
+      <div class="tc"><span class="tco">👁️</span><h3>Spyware</h3><p>Hidden software monitoring your calls, messages, location, and camera without your knowledge.</p></div>
+      <div class="tc"><span class="tco">📦</span><h3>Fake APK Files</h3><p>APK files from outside the Play Store claiming to be premium apps but containing malicious code.</p></div>
+      <div class="tc"><span class="tco">📶</span><h3>Public Wi-Fi Attacks</h3><p>Hackers create fake hotspots or intercept traffic on open networks to steal passwords and data.</p></div>
+      <div class="tc"><span class="tco">💬</span><h3>SMS Phishing</h3><p>Fake texts from "banks" or "delivery services" with malicious links to steal your information.</p></div>
+    </div>
+    <div class="divider"></div>
+    <span class="tag">// Safety Guide</span>
+    <h2 class="sec-title">Android Security <span class="grad">Best Practices</span></h2>
+    <div class="tips">
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Install Apps Only from Google Play Store</strong>Avoid third-party app stores or downloading APK files from unknown websites.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Enable Google Play Protect</strong>Play Store → Menu → Play Protect. Automatically scans apps for malware.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Keep Android OS Updated</strong>Settings → System → Software Update. Updates contain critical security patches.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Use Strong Screen Lock &amp; Biometrics</strong>Set a 6-digit PIN and enable fingerprint or face recognition for secure access.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Use a VPN on Public Wi-Fi</strong>Never use banking apps on public Wi-Fi without a VPN to encrypt your connection.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Review App Permissions</strong>A flashlight asking for contacts is a red flag. Settings → Apps → Permissions.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Enable Two-Factor Authentication</strong>Add 2FA to Gmail, banking, and social media accounts for extra security.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Avoid Suspicious Links</strong>Don't tap links in SMS or WhatsApp from unknown senders — they lead to phishing sites.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Avoid Unknown APK Files</strong>Even from contacts — malware spreads through infected phones without the owner knowing.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Enable Find My Device</strong>Settings → Security → Find My Device. Locate, lock, or wipe your phone remotely.</div></div>
+    </div>
+    <div class="divider"></div>
+    <span class="tag">// Checklist</span>
+    <h2 class="sec-title">Security <span class="grad">Score Meter</span></h2>
+    <div class="meter" id="ameter">
+      <div class="mi"><div class="ml"><span>Play Protect Enabled</span><span class="mv">Critical</span></div><div class="mt"><div class="mf g" data-w="100"></div></div></div>
+      <div class="mi"><div class="ml"><span>OS Updated to Latest</span><span class="mv">Critical</span></div><div class="mt"><div class="mf g" data-w="95"></div></div></div>
+      <div class="mi"><div class="ml"><span>Strong Screen Lock</span><span class="mv">High</span></div><div class="mt"><div class="mf" data-w="85"></div></div></div>
+      <div class="mi"><div class="ml"><span>2FA on All Accounts</span><span class="mv">High</span></div><div class="mt"><div class="mf" data-w="80"></div></div></div>
+      <div class="mi"><div class="ml"><span>VPN Usage</span><span class="mv">Recommended</span></div><div class="mt"><div class="mf" data-w="65"></div></div></div>
+    </div>
+  </div>
+  <footer><div class="foot-in"><span class="foot-brand">BLACKHAT DEFENDERS</span><span class="foot-tag">// PROTECTING DIGITAL LIVES WORLDWIDE //</span><div class="foot-links"><a onclick="go('home')">Home</a><a onclick="go('android')">Android</a><a onclick="go('iphone')">iPhone</a><a onclick="go('laptop')">Laptop</a><a onclick="go('cyber')">Cyber Awareness</a><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a></div><div class="foot-copy">© 2025 BLACKHAT DEFENDERS. All rights reserved.</div></div></footer>
+</div>
+
+<!-- ═══════ IPHONE ═══════ -->
+<div id="iphone" class="page">
+  <div class="phero" style="background:linear-gradient(135deg,#070f1c,#0d1228)">
+    <div class="phero-in"><span class="phero-ico">📱</span><h1>iPhone / iOS <span class="grad">Security</span> Guide</h1><p>iPhones are secure by design, but no device is immune. Maximize your iPhone's security and privacy.</p></div>
+  </div>
+  <div class="sec">
+    <div class="info-box"><span class="bico">ℹ️</span><div class="btxt"><strong>iOS Security Advantage:</strong> Apple's closed ecosystem and strict App Store policies make iOS harder to attack. However, phishing, iCloud attacks, and social engineering still affect millions of iPhone users.</div></div>
+    <span class="tag">// Known Threats</span>
+    <h2 class="sec-title">iPhone <span style="color:var(--red)">Threats</span> to Watch</h2>
+    <div class="threats">
+      <div class="tc"><span class="tco">🎣</span><h3>iCloud Phishing</h3><p>Fake emails claiming your Apple ID is locked, tricking you into entering credentials on a fraudulent site.</p></div>
+      <div class="tc"><span class="tco">🔗</span><h3>Malicious Links</h3><p>Dangerous links in Messages or Safari can exploit browser vulnerabilities or install rogue config profiles.</p></div>
+      <div class="tc"><span class="tco">📲</span><h3>Fake Config Profiles</h3><p>Disguised as useful tools, these grant attackers deep access bypassing App Store restrictions.</p></div>
+      <div class="tc"><span class="tco">🕵️</span><h3>Stalkerware</h3><p>Monitoring apps installed by someone with physical access that secretly track your activity.</p></div>
+      <div class="tc"><span class="tco">📶</span><h3>Wi-Fi Attacks</h3><p>Connecting to malicious Wi-Fi exposes your traffic to man-in-the-middle attacks.</p></div>
+      <div class="tc"><span class="tco">🧠</span><h3>Social Engineering</h3><p>Attackers impersonating Apple Support to trick you into giving up your Apple ID credentials.</p></div>
+    </div>
+    <div class="divider"></div>
+    <span class="tag">// Protection Steps</span>
+    <h2 class="sec-title">iPhone Security <span class="grad">Best Practices</span></h2>
+    <div class="tips">
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Enable Face ID or Strong Passcode</strong>Use Face ID or Touch ID. Set a 6-digit PIN minimum — avoid birthdays or simple sequences.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Keep iOS Always Updated</strong>Settings → General → Software Update → Automatic Updates. iOS updates fix critical vulnerabilities.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Enable Two-Factor Authentication</strong>Settings → Your Name → Password &amp; Security → Two-Factor Authentication.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Review App Permissions Regularly</strong>Settings → Privacy &amp; Security. Revoke unnecessary camera, mic, and location access.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Strong Unique Apple ID Password</strong>Apple will NEVER call you to ask for your password. Never share it with anyone.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Avoid Suspicious Links &amp; Messages</strong>Don't tap links from unknown senders. Type website URLs directly into Safari.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Enable Lockdown Mode (High Risk)</strong>Settings → Privacy &amp; Security → Lockdown Mode for extreme protection against sophisticated attacks.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Use iCloud Keychain</strong>Let iOS generate and store strong unique passwords for every site automatically.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Enable Find My iPhone</strong>Settings → Your Name → Find My. Remotely locate, lock, or erase your device if lost.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Check for Unknown Profiles</strong>Settings → General → VPN &amp; Device Management. Remove unknown profiles immediately.</div></div>
+    </div>
+  </div>
+  <footer><div class="foot-in"><span class="foot-brand">BLACKHAT DEFENDERS</span><span class="foot-tag">// PROTECTING DIGITAL LIVES WORLDWIDE //</span><div class="foot-links"><a onclick="go('home')">Home</a><a onclick="go('android')">Android</a><a onclick="go('iphone')">iPhone</a><a onclick="go('laptop')">Laptop</a><a onclick="go('cyber')">Cyber Awareness</a><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a></div><div class="foot-copy">© 2025 BLACKHAT DEFENDERS. All rights reserved.</div></div></footer>
+</div>
+
+<!-- ═══════ LAPTOP ═══════ -->
+<div id="laptop" class="page">
+  <div class="phero" style="background:linear-gradient(135deg,#070f1c,#1a0d28)">
+    <div class="phero-in"><span class="phero-ico">💻</span><h1>Laptop &amp; Computer <span class="grad">Security</span></h1><p>Your computer holds your most sensitive data. Protect Windows and Mac from modern cyber threats.</p></div>
+  </div>
+  <div class="sec">
+    <span class="tag">// Threat Landscape</span>
+    <h2 class="sec-title">Computer <span style="color:var(--red)">Threats</span></h2>
+    <div class="threats">
+      <div class="tc"><span class="tco">🦠</span><h3>Malware</h3><p>Viruses, trojans, and worms that infect your computer, corrupt files, steal data, or give attackers remote control.</p></div>
+      <div class="tc"><span class="tco">🔒</span><h3>Ransomware</h3><p>Encrypts all your files and demands payment to unlock them. Can destroy years of work in minutes.</p></div>
+      <div class="tc"><span class="tco">📧</span><h3>Email Phishing</h3><p>Fake emails from "banks" or "Microsoft", tricking you into clicking malicious links or opening attachments.</p></div>
+      <div class="tc"><span class="tco">👁️</span><h3>Spyware / Keyloggers</h3><p>Hidden programs recording every keystroke, capturing passwords and credit card numbers silently.</p></div>
+      <div class="tc"><span class="tco">🌐</span><h3>Drive-by Downloads</h3><p>Malware that installs automatically when you visit a compromised website, without clicking anything.</p></div>
+      <div class="tc"><span class="tco">🎭</span><h3>Fake Software Updates</h3><p>Pop-ups claiming your software is outdated — they install malware instead of real updates.</p></div>
+    </div>
+    <div class="divider"></div>
+    <span class="tag">// Protection Guide</span>
+    <h2 class="sec-title">Computer Security <span class="grad">Best Practices</span></h2>
+    <div class="tips">
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Install Trusted Antivirus Software</strong>Windows Defender (free, built-in) is excellent. Mac has XProtect. Also consider Malwarebytes.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Enable Your Firewall</strong>Windows: Settings → Windows Security → Firewall. Mac: System Settings → Network → Firewall.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Keep OS &amp; Software Updated</strong>Enable automatic updates. Most successful attacks exploit unpatched old vulnerabilities.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Use a Password Manager</strong>Bitwarden or 1Password generate and store strong unique passwords — never reuse them.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Backup Files Regularly</strong>3-2-1 rule: 3 copies, 2 different media, 1 offsite/cloud. Protects against ransomware.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Avoid Unknown Downloads</strong>Only download software from official websites. Pirated software almost always contains malware.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Lock Your Screen When Away</strong>Windows: Win+L. Mac: Ctrl+Cmd+Q. Always lock when stepping away from your computer.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Use HTTPS Websites Only</strong>Look for the padlock icon. Never enter passwords on sites showing "Not Secure".</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Be Wary of Email Attachments</strong>Don't open .exe, .zip, or .doc with macros from email — even from people you know.</div></div>
+      <div class="tip"><div class="chk">✓</div><div class="tt"><strong>Use a Standard User Account</strong>A standard account limits damage if malware infects your system — not an admin account daily.</div></div>
+    </div>
+    <div class="divider"></div>
+    <span class="tag">// Email Safety</span>
+    <h2 class="sec-title">Spotting <span style="color:var(--red)">Phishing</span> Emails</h2>
+    <div class="tips">
+      <div class="tip"><div class="chk chk-r">⚠</div><div class="tt"><strong>Check the Sender's Email Address</strong>"Amazon Support" can mask "amazon@sketchy-domain.ru". Always verify the actual email domain.</div></div>
+      <div class="tip"><div class="chk chk-r">⚠</div><div class="tt"><strong>Urgency is a Red Flag</strong>"Act NOW or your account will be closed!" — Legitimate companies never create this kind of pressure.</div></div>
+      <div class="tip"><div class="chk chk-r">⚠</div><div class="tt"><strong>Hover Before You Click</strong>Hover over links to see the real URL. If it doesn't match the claimed site, it's phishing.</div></div>
+      <div class="tip"><div class="chk chk-r">⚠</div><div class="tt"><strong>Grammar &amp; Spelling Errors</strong>Many phishing emails contain typos. Legitimate companies always proofread carefully.</div></div>
+    </div>
+  </div>
+  <footer><div class="foot-in"><span class="foot-brand">BLACKHAT DEFENDERS</span><span class="foot-tag">// PROTECTING DIGITAL LIVES WORLDWIDE //</span><div class="foot-links"><a onclick="go('home')">Home</a><a onclick="go('android')">Android</a><a onclick="go('iphone')">iPhone</a><a onclick="go('laptop')">Laptop</a><a onclick="go('cyber')">Cyber Awareness</a><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a></div><div class="foot-copy">© 2025 BLACKHAT DEFENDERS. All rights reserved.</div></div></footer>
+</div>
+
+<!-- ═══════ CYBER AWARENESS ═══════ -->
+<div id="cyber" class="page">
+  <div class="phero" style="background:linear-gradient(135deg,#070f1c,#1c0a12)">
+    <div class="phero-in"><span class="phero-ico">⚡</span><h1>Cyber Attack <span class="grad">Awareness</span></h1><p>Common cyber attacks explained in simple language. Knowledge is your first line of defense.</p></div>
+  </div>
+  <div class="sec">
+    <div class="alert-box"><span class="bico">🎯</span><div class="btxt"><strong>Key Fact:</strong> 95% of cybersecurity breaches are caused by human error. Understanding how attacks work means you can recognize and avoid them.</div></div>
+    <span class="tag">// Attack Types</span>
+    <h2 class="sec-title">Common <span style="color:var(--red)">Cyber Attacks</span> Explained</h2>
+
+    <div class="ac" style="border-left:3px solid var(--red)">
+      <div class="ac-head"><span class="ac-ico">🎣</span><div><span class="ac-title" style="color:var(--red)">Phishing</span><span class="abadge" style="color:var(--red);border-color:rgba(255,51,102,.28);background:rgba(255,51,102,.12)">Very Common</span></div></div>
+      <p><strong style="color:var(--t1)">What it is:</strong> Attackers pretend to be a trusted company via email, text, or social media to trick you into revealing passwords, credit card numbers, or clicking malicious links.</p>
+      <div class="prot"><strong>✅ How to protect yourself:</strong> Verify the sender's email domain. Don't click links in unexpected emails — go directly to the website. When in doubt, call the company on their official number.</div>
+    </div>
+
+    <div class="ac" style="border-left:3px solid #ff8800">
+      <div class="ac-head"><span class="ac-ico">🦠</span><div><span class="ac-title" style="color:#ff8800">Malware</span><span class="abadge" style="color:#ff8800;border-color:rgba(255,136,0,.28);background:rgba(255,136,0,.12)">High Risk</span></div></div>
+      <p><strong style="color:var(--t1)">What it is:</strong> "Malicious software" — any software designed to harm your device. Includes viruses, trojans (disguised as real software), worms (spread across networks), and adware.</p>
+      <div class="prot"><strong>✅ How to protect yourself:</strong> Keep antivirus active and updated. Only download from official sources. Avoid clicking ads claiming your device is infected — they install real malware.</div>
+    </div>
+
+    <div class="ac" style="border-left:3px solid var(--purple)">
+      <div class="ac-head"><span class="ac-ico">🔒</span><div><span class="ac-title" style="color:var(--purple)">Ransomware</span><span class="abadge" style="color:var(--purple);border-color:rgba(179,71,255,.28);background:rgba(179,71,255,.12)">Devastating</span></div></div>
+      <p><strong style="color:var(--t1)">What it is:</strong> Malware that encrypts all your files and demands a ransom payment in crypto to restore access. Victims include hospitals, schools, businesses, and individuals.</p>
+      <div class="prot"><strong>✅ How to protect yourself:</strong> Backup data regularly to external drive or cloud. Never pay the ransom. Keep software updated and avoid suspicious email attachments.</div>
+    </div>
+
+    <div class="ac" style="border-left:3px solid var(--blue)">
+      <div class="ac-head"><span class="ac-ico">👁️</span><div><span class="ac-title" style="color:var(--blue)">Spyware</span><span class="abadge" style="color:var(--blue);border-color:rgba(0,212,255,.28);background:rgba(0,212,255,.12)">Stealthy</span></div></div>
+      <p><strong style="color:var(--t1)">What it is:</strong> Software that secretly monitors your activity — recording keystrokes, screenshots, camera/microphone access, location — and sends it to an attacker without you knowing.</p>
+      <div class="prot"><strong>✅ How to protect yourself:</strong> Run regular malware scans. Review app permissions. Watch for: overheating, slow device, unusual data usage. Factory reset if you suspect spyware.</div>
+    </div>
+
+    <div class="ac" style="border-left:3px solid var(--green)">
+      <div class="ac-head"><span class="ac-ico">🎭</span><div><span class="ac-title" style="color:var(--green)">Social Engineering</span><span class="abadge" style="color:var(--green);border-color:rgba(0,255,136,.28);background:rgba(0,255,136,.12)">Human-Based</span></div></div>
+      <p><strong style="color:var(--t1)">What it is:</strong> Manipulating people psychologically to give up confidential information — impersonating tech support, creating fake urgency, or exploiting emotions like fear or greed.</p>
+      <div class="prot"><strong>✅ How to protect yourself:</strong> Be skeptical of unsolicited contact. Verify requests through a different channel. No legitimate company will ever ask for your password over phone or email.</div>
+    </div>
+
+    <div class="divider"></div>
+    <span class="tag">// Red Flags</span>
+    <h2 class="sec-title">Universal <span class="grad">Warning Signs</span></h2>
+    <div class="tips">
+      <div class="tip"><div class="chk chk-r">🚨</div><div class="tt"><strong>"Act Immediately or Lose Access"</strong>Artificial urgency is the #1 social engineering tactic. Legitimate services give you time to think.</div></div>
+      <div class="tip"><div class="chk chk-r">🚨</div><div class="tt"><strong>Requests for Passwords or OTP Codes</strong>No legitimate company — bank, Apple, Google, government — will ever ask for your password or OTP.</div></div>
+      <div class="tip"><div class="chk chk-r">🚨</div><div class="tt"><strong>Too Good to Be True Offers</strong>Prize winnings, free iPhones, incredible investment returns — these are lures to steal from you.</div></div>
+      <div class="tip"><div class="chk chk-r">🚨</div><div class="tt"><strong>Unknown Sender + Unexpected Attachment</strong>Email attachments from strangers are a primary malware delivery method. Never open them.</div></div>
+    </div>
+  </div>
+  <footer><div class="foot-in"><span class="foot-brand">BLACKHAT DEFENDERS</span><span class="foot-tag">// PROTECTING DIGITAL LIVES WORLDWIDE //</span><div class="foot-links"><a onclick="go('home')">Home</a><a onclick="go('android')">Android</a><a onclick="go('iphone')">iPhone</a><a onclick="go('laptop')">Laptop</a><a onclick="go('cyber')">Cyber Awareness</a><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a></div><div class="foot-copy">© 2025 BLACKHAT DEFENDERS. All rights reserved.</div></div></footer>
+</div>
+
+<!-- ═══════ ABOUT ═══════ -->
+<div id="about" class="page">
+  <div class="phero" style="background:linear-gradient(135deg,#070f1c,#081a14)">
+    <div class="phero-in"><span class="phero-ico">🛡️</span><h1>About <span class="grad">BLACKHAT DEFENDERS</span></h1><p>Our mission: Make cybersecurity knowledge accessible to every person, regardless of technical background.</p></div>
+  </div>
+  <div class="sec">
+    <div class="about-g">
+      <div>
+        <span class="tag">// Our Mission</span>
+        <h2 class="sec-title">Defending <span class="grad">Everyone</span></h2>
+        <p style="color:var(--t2);font-size:.95rem;line-height:1.8;margin-bottom:1.1rem">BLACKHAT DEFENDERS is a cybersecurity consulting and awareness platform dedicated to helping individuals and organizations stay protected from cyber threats. We believe security knowledge should not be locked behind technical expertise — every person deserves to protect their digital life.</p>
+        <p style="color:var(--t2);font-size:.95rem;line-height:1.8;margin-bottom:1.1rem">The name "Blackhat Defenders" reflects our approach: we think like attackers (blackhats) to help you build defenses. Understanding how hackers think is the key to staying one step ahead.</p>
+        <p style="color:var(--t2);font-size:.95rem;line-height:1.8">From grandparents learning to spot phishing emails, to business owners securing company data — our guides are written in plain language with actionable steps anyone can take today.</p>
+      </div>
+      <div>
+        <div class="vals">
+          <div class="vc"><span class="vc-ico">🎯</span><h4>Mission-Driven</h4><p>Protecting individuals and organizations through education and awareness.</p></div>
+          <div class="vc"><span class="vc-ico">🔓</span><h4>Accessible</h4><p>Cybersecurity in plain language — no technical degree required.</p></div>
+          <div class="vc"><span class="vc-ico">⚡</span><h4>Up-to-Date</h4><p>Continuously updated with the latest threats and protection strategies.</p></div>
+          <div class="vc"><span class="vc-ico">🤝</span><h4>Trustworthy</h4><p>Independent advice with no vendor bias — we recommend what works best.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <span class="tag">// What We Cover</span>
+    <h2 class="sec-title">Our <span class="grad">Expertise</span></h2>
+    <div class="cards">
+      <div class="card no-hover"><div class="ci ci-g">🤖</div><h3>Android Security</h3><p>Complete guides protecting against mobile malware, phishing apps, and identity theft.</p></div>
+      <div class="card no-hover"><div class="ci ci-b">📱</div><h3>iPhone / iOS Security</h3><p>iPhone-specific privacy hardening, account protection, and threat awareness.</p></div>
+      <div class="card no-hover"><div class="ci ci-p">💻</div><h3>Computer Security</h3><p>Windows and Mac protection covering antivirus, firewalls, backups, and safe browsing.</p></div>
+      <div class="card no-hover"><div class="ci ci-r">⚡</div><h3>Threat Education</h3><p>Clear explanations of phishing, malware, ransomware, spyware, and social engineering.</p></div>
+    </div>
+  </div>
+  <footer><div class="foot-in"><span class="foot-brand">BLACKHAT DEFENDERS</span><span class="foot-tag">// PROTECTING DIGITAL LIVES WORLDWIDE //</span><div class="foot-links"><a onclick="go('home')">Home</a><a onclick="go('android')">Android</a><a onclick="go('iphone')">iPhone</a><a onclick="go('laptop')">Laptop</a><a onclick="go('cyber')">Cyber Awareness</a><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a></div><div class="foot-copy">© 2025 BLACKHAT DEFENDERS. All rights reserved.</div></div></footer>
+</div>
+
+<!-- ═══════ CONTACT ═══════ -->
+<div id="contact" class="page">
+  <div class="phero" style="background:linear-gradient(135deg,#070f1c,#0a1520)">
+    <div class="phero-in"><span class="phero-ico">📡</span><h1>Get in <span class="grad">Touch</span></h1><p>Have a cybersecurity question or need help? We're here for you.</p></div>
+  </div>
+  <div class="sec">
+    <div class="contact-g">
+      <div class="cinfo">
+        <div>
+          <span class="tag">// Contact Info</span>
+          <h2 class="sec-title" style="font-size:1.6rem">Reach <span class="grad">Us</span></h2>
+          <p style="color:var(--t2);font-size:.88rem;line-height:1.7;margin-bottom:1rem">We respond to all inquiries within 24 hours. For urgent security incidents, call our hotline directly.</p>
+        </div>
+        <div class="ci-row">
+          <div class="ci-ic">📞</div>
+          <div class="ci-t"><strong>Phone / Hotline</strong>
+            <span style="color:var(--blue);display:block;line-height:1.7">+91 63744 30180</span>
+            <span style="color:var(--blue);display:block;line-height:1.7">+91 95515 51911</span>
+          </div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-ic">📧</div>
+          <div class="ci-t"><strong>Email</strong>
+            <span style="color:var(--blue);display:block">blackhatdefenders@gmail.com</span>
+          </div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-ic">📸</div>
+          <div class="ci-t"><strong>Instagram</strong>
+            <span style="color:var(--purple);display:block">@blackhat_defenders</span>
+          </div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-ic">💬</div>
+          <div class="ci-t"><strong>WhatsApp</strong>
+            <span style="color:#25d366;display:block;line-height:1.7">+91 63744 30180</span>
+            <span style="color:#25d366;display:block;line-height:1.7">+91 95515 51911</span>
+          </div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-ic">📍</div>
+          <div class="ci-t"><strong>Location</strong>India · Available Worldwide · Remote Consulting</div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-ic">⏰</div>
+          <div class="ci-t"><strong>Response Time</strong>Within 24 hours · Emergency: Same day</div>
+        </div>
+        <div>
+          <p style="font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-weight:700;margin-bottom:.6rem">Follow Us</p>
+          <div class="socials">
+            <a class="soc ig-s" href="https://www.instagram.com/blackhat_defenders?igsh=MWl6cjZna2JhN28yNg==" target="_blank" rel="noopener">📸 Instagram</a>
+            <a class="soc wa-s" href="https://wa.me/916374430180" target="_blank" rel="noopener">💬 WhatsApp</a>
+            <a class="soc" href="#">🐦 Twitter</a>
+            <a class="soc" href="#">💼 LinkedIn</a>
+            <a class="soc" href="#">📘 Facebook</a>
+            <a class="soc" href="#">▶ YouTube</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cform">
+        <h3>Send Us a Message</h3>
+        <div class="fr2">
+          <div class="fg"><label>First Name</label><input type="text" placeholder="John"></div>
+          <div class="fg"><label>Last Name</label><input type="text" placeholder="Doe"></div>
+        </div>
+        <div class="fg"><label>Email Address</label><input type="email" placeholder="john@example.com"></div>
+        <div class="fg"><label>Phone (Optional)</label><input type="tel" placeholder="+91 00000 00000"></div>
+        <div class="fg">
+          <label>Subject</label>
+          <select>
+            <option>General Inquiry</option>
+            <option>Android Security Help</option>
+            <option>iPhone Security Help</option>
+            <option>Laptop / Computer Security</option>
+            <option>Suspected Hack / Incident</option>
+            <option>Business Consulting</option>
+            <option>Partnership Inquiry</option>
+          </select>
+        </div>
+        <div class="fg"><label>Message</label><textarea placeholder="Describe your cybersecurity question or concern..."></textarea></div>
+        <button class="btn btn-p" style="width:100%;justify-content:center" onclick="sendForm()">🔒 Send Secure Message</button>
+        <p class="enc">🔐 Your message is encrypted · We never share your data</p>
+      </div>
+    </div>
+  </div>
+  <footer><div class="foot-in"><span class="foot-brand">BLACKHAT DEFENDERS</span><span class="foot-tag">// PROTECTING DIGITAL LIVES WORLDWIDE //</span><div class="foot-links"><a onclick="go('home')">Home</a><a onclick="go('android')">Android</a><a onclick="go('iphone')">iPhone</a><a onclick="go('laptop')">Laptop</a><a onclick="go('cyber')">Cyber Awareness</a><a onclick="go('about')">About</a><a onclick="go('contact')">Contact</a></div><div class="foot-copy">© 2025 BLACKHAT DEFENDERS. All rights reserved.</div></div></footer>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif">
+  <span style="font-size:1.3rem">✅</span>
+  <div class="n-t"><strong>Message Sent!</strong>We'll respond within 24 hours.</div>
+</div>
+
+<script>
+// ── NAVIGATION ──
+function go(id) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Update nav active state
+  document.querySelectorAll('.nav-links a').forEach(function(a){
+    a.classList.toggle('active', a.getAttribute('data-page') === id);
+  });
+  // Animate meters on android page
+  if (id === 'android') setTimeout(animMeters, 400);
+}
+
+// ── MOBILE MENU ──
+function toggleMob() { document.getElementById('mob').classList.toggle('open'); }
+function closeMob()  { document.getElementById('mob').classList.remove('open'); }
+
+// Close mobile menu on outside click
+document.addEventListener('click', function(e) {
+  var mob = document.getElementById('mob');
+  var ham = document.getElementById('ham');
+  if (mob.classList.contains('open') && !mob.contains(e.target) && !ham.contains(e.target)) {
+    closeMob();
+  }
+});
+
+// ── FAQ ──
+function faq(btn) {
+  var item = btn.parentElement;
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.fi').forEach(function(f){ f.classList.remove('open'); });
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── METERS ──
+function animMeters() {
+  document.querySelectorAll('#ameter .mf').forEach(function(f) {
+    f.style.width = (f.getAttribute('data-w') || '80') + '%';
+  });
+}
+
+// ── CONTACT FORM ──
+function sendForm() {
+  var n = document.getElementById('notif');
+  n.classList.add('show');
+  setTimeout(function(){ n.classList.remove('show'); }, 4000);
+}
+
+// ── INIT ──
+document.querySelector('.nav-links a[data-page="home"]').classList.add('active');
+</script>
+</body>
+</html>
